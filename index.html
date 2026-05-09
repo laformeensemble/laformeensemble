@@ -158,6 +158,71 @@ html{
 <p>© 2026 La Form'Ensemble.fr</p>
 
 </footer>
+<!-- FIREBASE SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+<script>
+
+// 🔥 CONFIG FIREBASE (REMPLACE AVEC TES INFOS)
+const firebaseConfig = {
+  apiKey: "AIzaSyC9Onkj0aUzHoQ4LQI5phaMFlNqTbQM74o",
+  authDomain: "la-form-ensemble.firebaseapp.com",
+  projectId: "la-form-ensemble",
+  storageBucket: "la-form-ensemble.firebasestorage.app",
+  messagingSenderId: "770190943769",
+  appId: "1:770190943769:web:7f1d91595b8bd441d4ac88",
+  measurementId: "G-RSDN8MDXTX"
+};
+
+// INIT FIREBASE
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+
+// ➕ AJOUT ÉVÉNEMENT
+function addEvent(e){
+    e.preventDefault();
+
+    let title = document.getElementById("title").value;
+    let date = document.getElementById("date").value;
+    let place = document.getElementById("place").value;
+
+    db.collection("events").add({
+        title: title,
+        date: date,
+        place: place,
+        created: Date.now()
+    });
+
+    document.querySelector("form").reset();
+}
+
+
+// 📥 AFFICHER ÉVÉNEMENTS EN DIRECT
+db.collection("events").orderBy("created")
+.onSnapshot(snapshot => {
+
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+
+    snapshot.forEach(doc => {
+        let e = doc.data();
+
+        let div = document.createElement("div");
+        div.className = "event-box";
+
+        div.innerHTML = `
+            <h3>${e.title}</h3>
+            <p><b>Date:</b> ${e.date}</p>
+            <p><b>Lieu:</b> ${e.place}</p>
+        `;
+
+        list.appendChild(div);
+    });
+
+});
+
+</script>
 </body>
 </html>
