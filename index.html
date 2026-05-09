@@ -6,205 +6,29 @@
 <title>La Form Ensemble</title>
 
 <style>
-
 body{
     margin:0;
-    font-family:Arial, sans-serif;
+    font-family:Arial;
     background:#0f172a;
     color:white;
+    text-align:center;
 }
-
-/* MENU */
-nav{
-    position:fixed;
-    top:0;
-    width:100%;
-    background:#111827;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 20px;
-    z-index:1000;
-}
-
-nav h1{
-    font-size:20px;
-    color:#38bdf8;
-}
-
-nav a{
-    color:white;
-    text-decoration:none;
-    margin:0 10px;
-}
-
-nav a:hover{
-    color:#38bdf8;
-}
-
-/* ACCUEIL */
 header{
-    height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
-    background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),
-    url("https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1600");
-    background-size:cover;
-    background-position:center;
-}
-
-header h2{
-    font-size:50px;
-    margin-bottom:10px;
-}
-
-header p{
-    font-size:20px;
-    color:#cbd5e1;
-}
-
-/* SECTIONS */
-section{
     padding:80px 20px;
-    text-align:center;
 }
-
-h2{
-    font-size:35px;
-    margin-bottom:30px;
-}
-
-/* EVENEMENTS */
-.event-box{
-    background:#1e293b;
-    padding:20px;
-    margin:15px auto;
-    max-width:600px;
-    border-radius:15px;
-    text-align:left;
-}
-
-.event-box h3{
+h1{
     color:#38bdf8;
 }
-
-/* CONTACT */
-footer{
-    background:#111827;
-    padding:50px 20px;
-    text-align:center;
-}
-
-footer p{
-    margin:10px 0;
-    color:#94a3b8;
-}
-
-/* SMOOTH SCROLL */
-html{
-    scroll-behavior:smooth;
-}
-
 </style>
 
 </head>
 
 <body>
 
-<!-- MENU -->
-<nav>
+<header>
 <h1>La Form Ensemble</h1>
-
-<div>
-<a href="#accueil">Accueil</a>
-<a href="#evenements">Événements</a>
-<a href="#contact">Contact</a>
-</div>
-</nav>
-
-<!-- ACCUEIL -->
-<header id="accueil">
-
-<h2>Bienvenue sur La Form Ensemble</h2>
-
-<p>Association sportive pour tous les niveaux</p>
-
+<p>Site officiel de l’association sportive</p>
 </header>
-
-<!-- EVENEMENTS -->
-<section id="evenements">
-
-<h2>Événements</h2>
-
-<div class="event-box">
-    <h3 class="event-title">cours de sports</h3>
-    <p class="event-date"><b>Date :</b>le samedi de 10h30 à 12h00</p>
-    <p class="event-place"><b>Lieu :</b>Parc Montsouris</p>
-</div>
-
-</section>
-
-<!-- CONTACT -->
-<footer id="contact">
-
-<h2>Nous contacter</h2>
-
-<p>Email : contact@laformensemble.fr</p>
-
-<p>© 2026 La Form Ensemble</p>
-
-</footer>
-
-<!-- FIREBASE SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-<script>
-
-// CONFIG FIREBASE
-const firebaseConfig = {
-  apiKey: "AIzaSyC9Onkj0aUzHoQ4LQI5phaMFlNqTbQM74o",
-  authDomain: "la-form-ensemble.firebaseapp.com",
-  projectId: "la-form-ensemble",
-  storageBucket: "la-form-ensemble.firebasestorage.app",
-  messagingSenderId: "770190943769",
-  appId: "1:770190943769:web:7f1d91595b8bd441d4ac88",
-  measurementId: "G-RSDN8MDXTX"
-};
-
-// INIT FIREBASE
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-
-
-// SAUVEGARDE DES EVENEMENTS
-window.onload = function(){
-
-    const events = document.querySelectorAll(".event-box");
-
-    events.forEach(event => {
-
-        let title = event.querySelector(".event-title").innerText;
-        let date = event.querySelector(".event-date").innerText;
-        let place = event.querySelector(".event-place").innerText;
-
-        db.collection("events").add({
-            title: title,
-            date: date,
-            place: place,
-            created: Date.now()
-        });
-
-    });
-
-}
-
-</script>
 
 </body>
 </html>
