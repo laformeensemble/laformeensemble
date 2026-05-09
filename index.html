@@ -8,27 +8,170 @@
 <style>
 body{
     margin:0;
-    font-family:Arial;
-    background:#0f172a;
+    font-family:Arial, sans-serif;
+    background:#0b1220;
     color:white;
-    text-align:center;
 }
-header{
-    padding:80px 20px;
+
+/* NAV */
+nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:rgba(17,24,39,0.95);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 25px;
+    z-index:1000;
+    backdrop-filter: blur(10px);
 }
-h1{
+
+nav h1{
+    font-size:18px;
     color:#38bdf8;
 }
-</style>
 
+nav a{
+    color:white;
+    margin:0 10px;
+    text-decoration:none;
+}
+
+nav a:hover{
+    color:#38bdf8;
+}
+
+/* HERO */
+header{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),
+    url("https://images.unsplash.com/photo-1522778119026-d647f0596c20");
+    background-size:cover;
+    background-position:center;
+}
+
+header h2{
+    font-size:50px;
+    margin:0;
+}
+
+header p{
+    font-size:18px;
+    color:#cbd5e1;
+}
+
+/* SECTIONS */
+section{
+    padding:80px 20px;
+    text-align:center;
+}
+
+h2{
+    color:#38bdf8;
+}
+
+/* EVENT CARD */
+.event{
+    background:#1e293b;
+    padding:20px;
+    margin:15px auto;
+    max-width:600px;
+    border-radius:15px;
+    text-align:left;
+    transition:0.3s;
+}
+
+.event:hover{
+    transform:scale(1.02);
+}
+
+/* FOOTER */
+footer{
+    background:#111827;
+    padding:40px;
+    text-align:center;
+    color:#94a3b8;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+    header h2{
+        font-size:32px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-<header>
+<nav>
 <h1>La Form Ensemble</h1>
-<p>Site officiel de l’association sportive</p>
+<div>
+<a href="#accueil">Accueil</a>
+<a href="#evenements">Événements</a>
+<a href="#contact">Contact</a>
+</div>
+</nav>
+
+<header id="accueil">
+<h2>La Form Ensemble</h2>
+<p>Association sportive & événements</p>
 </header>
+
+<section id="evenements">
+<h2>Événements</h2>
+<div id="list">Chargement...</div>
+</section>
+
+<footer id="contact">
+<h2>Contact</h2>
+<p>contact@laformensemble.fr</p>
+<p>© 2026 La Form Ensemble</p>
+</footer>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyC9Onkj0aUzHoQ4LQI5phaMFlNqTbQM74o",
+  authDomain: "la-form-ensemble.firebaseapp.com",
+  projectId: "la-form-ensemble",
+  storageBucket: "la-form-ensemble.firebasestorage.app",
+  messagingSenderId: "770190943769",
+  appId: "1:770190943769:web:7f1d91595b8bd441d4ac88"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+db.collection("events").orderBy("created","desc")
+.onSnapshot(snapshot => {
+
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+
+    snapshot.forEach(doc => {
+        let e = doc.data();
+
+        list.innerHTML += `
+        <div class="event">
+            <h3>${e.title}</h3>
+            <p>${e.date} - ${e.place}</p>
+        </div>
+        `;
+    });
+
+});
+</script>
 
 </body>
 </html>
