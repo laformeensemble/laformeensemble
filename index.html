@@ -3,9 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>La Form'Ensemble</title>
 
+<meta name="description" content="Activités physiques, événements et bien-être.">
+
 <style>
+
 body{
     margin:0;
     font-family:Arial, sans-serif;
@@ -13,244 +17,306 @@ body{
     color:white;
 }
 
-/* NAV */
+/* MENU */
+
 nav{
     position:fixed;
     top:0;
     width:100%;
-    background:rgba(17,24,39,0.95);
+    background:rgba(15,23,42,0.9);
     display:flex;
     justify-content:space-between;
     align-items:center;
     padding:15px 25px;
     z-index:1000;
-    backdrop-filter: blur(10px);
+    backdrop-filter:blur(10px);
 }
 
-nav h1{font-size:18px;color:#38bdf8;}
-nav a{color:white;margin:0 10px;text-decoration:none;}
-nav a:hover{color:#38bdf8;}
+nav h1{
+    color:#4ade80;
+    font-size:22px;
+}
 
-/* HERO */
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:0 10px;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:#4ade80;
+}
+
+/* ACCUEIL */
+
 header{
     height:100vh;
     display:flex;
     flex-direction:column;
     justify-content:center;
-    align-items:center;
-    text-align:center;
-    padding:20px;
-    background:linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.8)),
-    url("https://images.unsplash.com/photo-1522778119026-d647f0596c20");
+    align-items:flex-start;
+    text-align:left;
+    padding:80px;
+    background:
+    linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.55)),
+    url("https://i.imgur.com/8x7Yh4x.png");
     background-size:cover;
     background-position:center;
 }
 
-header h2{font-size:50px;margin:0;}
-header p{font-size:18px;color:#cbd5e1;}
+header h2{
+    font-size:65px;
+    margin:0;
+    max-width:700px;
+}
+
+header p{
+    font-size:28px;
+    color:#e2e8f0;
+    max-width:600px;
+    margin-top:20px;
+}
+
+/* SECTIONS */
 
 section{
     padding:80px 20px;
     text-align:center;
 }
 
-h2{color:#38bdf8;}
+section h2{
+    color:#4ade80;
+    font-size:40px;
+    margin-bottom:30px;
+}
+
+/* ÉVÉNEMENTS */
 
 .event{
     background:#1e293b;
-    padding:20px;
-    margin:15px auto;
-    max-width:600px;
-    border-radius:15px;
+    padding:25px;
+    margin:20px auto;
+    max-width:700px;
+    border-radius:20px;
     text-align:left;
     transition:0.3s;
+    box-shadow:0 0 20px rgba(0,0,0,0.3);
 }
 
-.event:hover{transform:scale(1.02);}
+.event:hover{
+    transform:translateY(-5px);
+}
+
+.event h3{
+    color:#4ade80;
+}
+
+/* A PROPOS */
+
+.about{
+    max-width:900px;
+    margin:auto;
+    background:#111827;
+    padding:40px;
+    border-radius:20px;
+    line-height:1.8;
+    color:#cbd5e1;
+    box-shadow:0 0 20px rgba(0,0,0,0.3);
+}
+
+/* FOOTER */
 
 footer{
     background:#111827;
-    padding:40px;
+    padding:50px 20px;
     text-align:center;
     color:#94a3b8;
 }
 
-/* COOKIE BANNER */
-#cookieBanner{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:#111827;
-    padding:15px;
-    display:none;
-    justify-content:space-between;
-    align-items:center;
-    z-index:2000;
-}
-
-button{
-    cursor:pointer;
-    padding:8px 12px;
-}
-
-/* MODAL */
-#legal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.85);
-    overflow:auto;
-    padding:40px;
-}
-
-.legal-box{
-    background:#1e293b;
-    max-width:800px;
-    margin:auto;
-    padding:20px;
-    border-radius:10px;
-}
+/* MOBILE */
 
 @media(max-width:768px){
-    header h2{font-size:32px;}
+
+    nav{
+        flex-direction:column;
+    }
+
+    header{
+        padding:30px;
+        align-items:center;
+        text-align:center;
+    }
+
+    header h2{
+        font-size:40px;
+    }
+
+    header p{
+        font-size:22px;
+    }
+
 }
+
+html{
+    scroll-behavior:smooth;
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
+<!-- MENU -->
+
 <nav>
-<h1>La Form'Ensemble</h1>
+
+<h1>La Form Ensemble</h1>
+
 <div>
 <a href="#accueil">Accueil</a>
 <a href="#evenements">Événements</a>
+<a href="#apropos">À propos</a>
 <a href="#contact">Contact</a>
 </div>
+
 </nav>
 
-<!-- HERO -->
+<!-- ACCUEIL -->
+
 <header id="accueil">
-<h2>La Form'Ensemble</h2>
-<p>Association sportive & événements</p>
+
+<h2>Bouger à son rythme,<br> avancer ensemble.</h2>
+
+<p>
+Association sportive adaptée pour les personnes diabétiques.
+</p>
+
 </header>
 
-<!-- EVENTS -->
+<!-- EVENEMENTS -->
+
 <section id="evenements">
+
 <h2>Événements</h2>
-<div id="list">Chargement...</div>
+
+<div id="list">
+Chargement des événements...
+</div>
+
+</section>
+
+<!-- A PROPOS -->
+
+<section id="apropos">
+
+<h2>À propos</h2>
+
+<div class="about">
+
+<p>
+La Form Ensemble accompagne les personnes diabétiques
+à travers des activités physiques adaptées et accessibles à tous.
+</p>
+
+<p>
+Le sport aide à améliorer le bien-être, la santé,
+la confiance en soi et la qualité de vie.
+Chaque activité est pensée pour avancer ensemble,
+à son rythme et dans un environnement bienveillant.
+</p>
+
+<p>
+Notre objectif est de créer une communauté motivante
+où chacun peut progresser, partager et retrouver le plaisir de bouger.
+</p>
+
+</div>
+
 </section>
 
 <!-- CONTACT -->
+
 <footer id="contact">
+
 <h2>Contact</h2>
+
 <p>contact@laformensemble.fr</p>
 
-<p>
-<a href="#" onclick="openLegal()" style="color:#38bdf8;">
-Mentions légales & RGPD
-</a>
-</p>
+<p>© 2026 La Form Ensemble</p>
 
-<p>© 2026 La Form'Ensemble</p>
 </footer>
 
-<!-- COOKIE BANNER -->
-<div id="cookieBanner">
-<p style="margin:0;font-size:14px;">
-Ce site utilise des cookies pour améliorer l’expérience.
-</p>
-
-<div>
-<button onclick="acceptCookies()">Accepter</button>
-<button onclick="rejectCookies()">Refuser</button>
-</div>
-</div>
-
-<!-- LEGAL MODAL -->
-<div id="legal">
-<div class="legal-box">
-<h2>Mentions légales</h2>
-
-<p><b>Association :</b> La Form'Ensemble</p>
-<p><b>Email :</b> contact@laformensemble.fr</p>
-<p><b>Responsable :</b> Président de l’association</p>
-<p><b>Hébergeur :</b> Google Firebase (Google LLC)</p>
-<p><b>Adresse :</b> À compléter</p>
-
-<h3>RGPD</h3>
-<p>
-Les données collectées servent uniquement à la gestion des événements.
-Vous pouvez demander leur suppression par email.
-</p>
-
-<h3>Cookies</h3>
-<p>
-Cookies utilisés uniquement pour le bon fonctionnement du site.
-</p>
-
-<button onclick="closeLegal()">Fermer</button>
-</div>
-</div>
-
 <!-- FIREBASE -->
+
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
+
 const firebaseConfig = {
+
   apiKey: "AIzaSyC9Onkj0aUzHoQ4LQI5phaMFlNqTbQM74o",
+
   authDomain: "la-form-ensemble.firebaseapp.com",
+
   projectId: "la-form-ensemble",
+
   storageBucket: "la-form-ensemble.firebasestorage.app",
+
   messagingSenderId: "770190943769",
+
   appId: "1:770190943769:web:7f1d91595b8bd441d4ac88"
+
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore();
 
-db.collection("events").orderBy("created","desc")
+db.collection("events")
+.orderBy("created","desc")
+
 .onSnapshot(snapshot => {
+
     let list = document.getElementById("list");
+
     list.innerHTML = "";
 
-    snapshot.forEach(doc => {
-        let e = doc.data();
-        list.innerHTML += `
+    if(snapshot.empty){
+
+        list.innerHTML = `
         <div class="event">
+        <h3>Aucun événement pour le moment</h3>
+        <p>Les prochains événements apparaîtront ici.</p>
+        </div>
+        `;
+
+        return;
+    }
+
+    snapshot.forEach(doc => {
+
+        let e = doc.data();
+
+        list.innerHTML += `
+
+        <div class="event">
+
             <h3>${e.title}</h3>
-            <p>${e.date} - ${e.place}</p>
-        </div>`;
+
+            <p><b>Date :</b> ${e.date}</p>
+
+            <p><b>Lieu :</b> ${e.place}</p>
+
+        </div>
+
+        `;
+
     });
+
 });
 
-// COOKIE LOGIC
-function acceptCookies(){
-    localStorage.setItem("cookies","ok");
-    document.getElementById("cookieBanner").style.display="none";
-}
-
-function rejectCookies(){
-    localStorage.setItem("cookies","no");
-    document.getElementById("cookieBanner").style.display="none";
-}
-
-window.onload = () => {
-    if(!localStorage.getItem("cookies")){
-        document.getElementById("cookieBanner").style.display="flex";
-    }
-};
-
-// LEGAL
-function openLegal(){
-    document.getElementById("legal").style.display="block";
-}
-
-function closeLegal(){
-    document.getElementById("legal").style.display="none";
-}
 </script>
 
 </body>
