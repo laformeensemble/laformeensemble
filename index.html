@@ -67,7 +67,7 @@ section.active{
   margin-top:10px;
 }
 
-/* GALLERY */
+/* GALERIE */
 #images{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
@@ -94,7 +94,7 @@ section.active{
   font-weight:bold;
 }
 
-/* LOGIN FULL SCREEN */
+/* LOGIN */
 #login{
   position:fixed;
   top:0;
@@ -192,8 +192,6 @@ section.active{
 
 <script>
 
-try{
-
 /* FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyC9Onkj0aUzHoQ4LQI5phaMFlNqTbQM74o",
@@ -206,75 +204,53 @@ const db = firebase.firestore();
 
 const protectedPages = ["gallery","gazette"];
 
-/* NAVIGATION SAFE */
+/* NAVIGATION */
 function show(page){
 
-  try{
+  const user = firebase.auth().currentUser;
 
-    const user = firebase.auth().currentUser;
-
-    if(protectedPages.includes(page) && !user){
-      page = "login";
-    }
-
-    document.querySelectorAll("section")
-    .forEach(s => s.classList.remove("active"));
-
-    const target = document.getElementById(page);
-    if(target) target.classList.add("active");
-
-  }catch(e){
-    console.log(e);
+  if(protectedPages.includes(page) && !user){
+    page = "login";
   }
+
+  document.querySelectorAll("section")
+  .forEach(s => s.classList.remove("active"));
+
+  const target = document.getElementById(page);
+  if(target) target.classList.add("active");
 
 }
 
-/* LOGIN SAFE */
+/* LOGIN */
 function login(){
 
-  try{
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-
-    firebase.auth()
-    .signInWithEmailAndPassword(email, password)
-    .then(()=> show("home"))
-    .catch(e=> alert(e.message));
-
-  }catch(e){
-    console.log(e);
-  }
+  firebase.auth()
+  .signInWithEmailAndPassword(email, password)
+  .then(()=> show("home"))
+  .catch(e=> alert(e.message));
 
 }
 
-/* AUTH */
+/* AUTH CONTROL */
 firebase.auth().onAuthStateChanged(user => {
 
-  try{
+  const galContent = document.getElementById("galContent");
+  const gazContent = document.getElementById("gazContent");
 
-    const galContent = document.getElementById("galContent");
-    const gazContent = document.getElementById("gazContent");
-
-    if(user){
-
-      if(galContent) galContent.style.display = "block";
-      if(gazContent) gazContent.style.display = "block";
-
-    }else{
-
-      if(galContent) galContent.style.display = "none";
-      if(gazContent) gazContent.style.display = "none";
-
-    }
-
-  }catch(e){
-    console.log(e);
+  if(user){
+    if(galContent) galContent.style.display = "block";
+    if(gazContent) gazContent.style.display = "block";
+  } else {
+    if(galContent) galContent.style.display = "none";
+    if(gazContent) gazContent.style.display = "none";
   }
 
 });
 
-/* UPLOAD IMAGE */
+/* UPLOAD */
 function uploadImage(){
 
   const file = document.getElementById("imageFile").files[0];
@@ -305,31 +281,15 @@ db.collection("gallery")
 
   snap.forEach(doc=>{
 
-    const url = doc.data().url;
-
     images.innerHTML += `
       <div class="gallery-card">
-        <img src="${url}">
-        <button class="download-btn"
-        onclick="downloadImage('${url}')">
-        Télécharger
-        </button>
+        <img src="${doc.data().url}">
       </div>
     `;
 
   });
 
 });
-
-/* DOWNLOAD */
-function downloadImage(url){
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "image.jpg";
-  a.click();
-
-}
 
 /* EVENTS */
 db.collection("events")
@@ -354,10 +314,6 @@ db.collection("events")
   });
 
 });
-
-}catch(e){
-  console.log("GLOBAL ERROR:", e);
-}
 
 </script>
 
