@@ -110,9 +110,7 @@ iframe{
 <!-- 🟢 ACCUEIL -->
 <section id="home" class="active">
   <h2>La Form'Ensemble 🌿</h2>
-  <div class="card">
-    Bienvenue sur le site
-  </div>
+  <div class="card">Bienvenue sur le site</div>
 </section>
 
 <!-- 🟢 À PROPOS -->
@@ -137,7 +135,7 @@ iframe{
 <section id="gazette">
 <h2>Gazette 🔒</h2>
 
-<div id="gazBlocked">Connexion requise</div>
+<div id="gazBlocked">🔒 Connexion requise</div>
 
 <div id="gazContent" style="display:none">
 <iframe src="https://drive.google.com/file/d/ID_DU_PDF/preview"></iframe>
@@ -149,7 +147,7 @@ iframe{
 <section id="gallery">
 <h2>Galerie 📸</h2>
 
-<div id="galBlocked">Connexion requise</div>
+<div id="galBlocked">🔒 Connexion requise</div>
 
 <div id="galContent" style="display:none">
 
@@ -164,6 +162,18 @@ iframe{
 
 </section>
 
+<!-- 🔐 LOGIN -->
+<section id="login">
+<h2>Connexion 🔐</h2>
+
+<div class="card">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Mot de passe">
+<button onclick="login()">Se connecter</button>
+</div>
+
+</section>
+
 <!-- NAV -->
 <nav>
 <button onclick="show('home')">Accueil</button>
@@ -172,36 +182,33 @@ iframe{
 <button onclick="show('contact')">Contact</button>
 <button onclick="show('gazette')">Gazette</button>
 <button onclick="show('gallery')">Galerie</button>
+<button onclick="show('login')">Connexion</button>
 </nav>
 
 <script>
 
 // 🔥 FIREBASE
 const firebaseConfig = {
-  apiKey: "TON_API_KEY",
-  authDomain: "TON_PROJECT.firebaseapp.com",
-  projectId: "TON_PROJECT"
+  apiKey: "AIzaSyC9Onkj0aUzHoQ4LQI5phaMFlNqTbQM74o",
+  authDomain: "la-form-ensemble.firebaseapp.com",
+  projectId: "la-form-ensemble"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* NAVIGATION ULTRA FIABLE */
+/* NAVIGATION */
 function show(page){
 
   document.querySelectorAll("section").forEach(s=>{
     s.classList.remove("active");
   });
 
-  const target = document.getElementById(page);
-
-  if(target){
-    target.classList.add("active");
-  }
+  document.getElementById(page).classList.add("active");
 
 }
 
-/* AUTH */
+/* AUTH CHECK */
 firebase.auth().onAuthStateChanged(user => {
 
   if(user){
@@ -223,6 +230,23 @@ firebase.auth().onAuthStateChanged(user => {
   }
 
 });
+
+/* LOGIN */
+function login(){
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  firebase.auth().signInWithEmailAndPassword(email, password)
+  .then(()=>{
+    alert("Connecté !");
+    show("home");
+  })
+  .catch(err=>{
+    alert(err.message);
+  });
+
+}
 
 /* AJOUT IMAGE */
 function addImage(){
