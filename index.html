@@ -93,7 +93,7 @@ section.active{
   object-fit:cover;
 }
 
-/* bouton download */
+/* DOWNLOAD */
 .download-btn{
   width:100%;
   padding:10px;
@@ -101,10 +101,6 @@ section.active{
   background:#4ade80;
   color:#0b1220;
   font-weight:bold;
-}
-
-.download-btn:hover{
-  background:#22c55e;
 }
 
 /* EVENTS */
@@ -201,22 +197,27 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* NAVIGATION SÉCURISÉE */
+/* NAVIGATION ULTRA STABLE */
 function show(page){
 
-  const user = firebase.auth().currentUser;
+  firebase.auth().onAuthStateChanged(user=>{
 
-  if((page === "gallery" || page === "gazette") && !user){
-    alert("🔒 Connexion requise");
-    page = "login";
-  }
+    const protectedPages = ["gallery","gazette"];
 
-  document.querySelectorAll("section")
-  .forEach(s=>s.classList.remove("active"));
+    if(protectedPages.includes(page) && !user){
+      alert("🔒 Connexion requise");
+      page = "login";
+    }
 
-  document.getElementById(page).classList.add("active");
+    document.querySelectorAll("section")
+    .forEach(s=>s.classList.remove("active"));
 
-  window.scrollTo(0,0);
+    const el = document.getElementById(page);
+    if(el) el.classList.add("active");
+
+    window.scrollTo(0,0);
+
+  });
 
 }
 
@@ -230,15 +231,25 @@ function login(){
 
 }
 
-/* AUTH */
+/* AUTH STATE */
 firebase.auth().onAuthStateChanged(user=>{
 
   if(user){
+
     galBlocked.style.display="none";
     galContent.style.display="block";
 
     gazBlocked.style.display="none";
     gazContent.style.display="block";
+
+  }else{
+
+    galBlocked.style.display="block";
+    galContent.style.display="none";
+
+    gazBlocked.style.display="block";
+    gazContent.style.display="none";
+
   }
 
 });
@@ -291,7 +302,7 @@ db.collection("gallery")
 
 });
 
-/* DOWNLOAD FUNCTION */
+/* DOWNLOAD */
 function downloadImage(url){
 
   const a = document.createElement("a");
