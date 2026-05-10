@@ -23,7 +23,7 @@ body{
   color:white;
 }
 
-/* TOPBAR */
+/* TOP BAR */
 .topbar{
   position:fixed;
   top:0;
@@ -54,7 +54,6 @@ nav{
   display:flex;
   justify-content:space-around;
   padding:10px;
-
   z-index:1000;
 }
 
@@ -79,9 +78,61 @@ section.active{
   display:block;
 }
 
-/* HOME */
+/* 🔥 ACCUEIL PRO */
 #home{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
   text-align:center;
+
+  background:
+  linear-gradient(120deg,
+  rgba(0,0,0,0.65),
+  rgba(0,0,0,0.35)),
+  url("fond.jpg");
+
+  background-size:cover;
+  background-position:center;
+}
+
+#home::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(74,222,128,0.12);
+}
+
+#home > *{
+  position:relative;
+}
+
+#home h1{
+  font-size:48px;
+  margin:0;
+}
+
+#home p{
+  font-size:18px;
+  max-width:650px;
+  color:#d1d5db;
+  margin-top:15px;
+  line-height:1.6;
+}
+
+.home-btn{
+  margin-top:25px;
+  padding:14px 22px;
+  background:#4ade80;
+  border:none;
+  border-radius:14px;
+  font-weight:bold;
+  color:#0b1220;
 }
 
 /* CARDS */
@@ -90,24 +141,6 @@ section.active{
   padding:15px;
   margin-top:15px;
   border-radius:15px;
-}
-
-/* GALLERY */
-#images{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;
-}
-
-.gallery-card{
-  border-radius:15px;
-  overflow:hidden;
-}
-
-.gallery-card img{
-  width:100%;
-  height:200px;
-  object-fit:cover;
 }
 
 /* EVENTS */
@@ -127,9 +160,18 @@ section.active{
   border-radius:10px;
 }
 
-/* LOGIN */
-#login{
-  text-align:center;
+/* GALLERY */
+#images{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:10px;
+}
+
+.gallery-card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:15px;
 }
 
 </style>
@@ -141,8 +183,12 @@ section.active{
 
 <!-- HOME -->
 <section id="home" class="active">
-  <h2>Bienvenue 🌿</h2>
-  <div class="card">Sport adapté au Parc Montsouris</div>
+  <h1>La Form'Ensemble 🌿</h1>
+  <p>Activité physique adaptée pour les personnes diabétiques au Parc Montsouris.</p>
+
+  <button class="home-btn" onclick="show('events')">
+    Découvrir
+  </button>
 </section>
 
 <!-- EVENTS -->
@@ -167,7 +213,6 @@ section.active{
     <div id="images"></div>
 
   </div>
-
 </section>
 
 <!-- GAZETTE -->
@@ -179,7 +224,6 @@ section.active{
   <div id="gazContent" style="display:none">
     <div class="card">PDF ici</div>
   </div>
-
 </section>
 
 <!-- LOGIN -->
@@ -191,7 +235,6 @@ section.active{
     <input id="password" type="password" placeholder="Mot de passe">
     <button onclick="login()">Se connecter</button>
   </div>
-
 </section>
 
 <!-- NAV -->
@@ -207,17 +250,17 @@ section.active{
 
 <script>
 
-/* FIREBASE */
+/* 🔥 FIREBASE */
 const firebaseConfig = {
-  apiKey:"AIzaSyC9Onkj0aUzHoQ4LQI5phaMFlNqTbQM74o",
-  authDomain:"la-form-ensemble.firebaseapp.com",
-  projectId:"la-form-ensemble"
+  apiKey: "AIzaSyC9Onkj0aUzHoQ4LQI5phaMFlNqTbQM74o",
+  authDomain: "la-form-ensemble.firebaseapp.com",
+  projectId: "la-form-ensemble"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* NAVIGATION PROPRE */
+/* NAVIGATION */
 function show(page){
 
   const user = firebase.auth().currentUser;
@@ -242,8 +285,8 @@ function login(){
 
   firebase.auth()
   .signInWithEmailAndPassword(
-    document.getElementById("email").value,
-    document.getElementById("password").value
+    email.value,
+    password.value
   )
   .then(()=>{
     show("home");
@@ -254,15 +297,25 @@ function login(){
 
 }
 
-/* AUTH DISPLAY */
+/* AUTH */
 firebase.auth().onAuthStateChanged(user=>{
 
   if(user){
-    document.getElementById("galBlocked").style.display="none";
-    document.getElementById("galContent").style.display="block";
 
-    document.getElementById("gazBlocked").style.display="none";
-    document.getElementById("gazContent").style.display="block";
+    galBlocked.style.display="none";
+    galContent.style.display="block";
+
+    gazBlocked.style.display="none";
+    gazContent.style.display="block";
+
+  }else{
+
+    galBlocked.style.display="block";
+    galContent.style.display="none";
+
+    gazBlocked.style.display="block";
+    gazContent.style.display="none";
+
   }
 
 });
@@ -270,11 +323,11 @@ firebase.auth().onAuthStateChanged(user=>{
 /* UPLOAD IMAGE */
 function uploadImage(){
 
-  const file = document.getElementById("imageFile").files[0];
+  const file = imageFile.files[0];
 
   const reader = new FileReader();
 
-  reader.onload = function(e){
+  reader.onload = e=>{
 
     db.collection("gallery").add({
       url:e.target.result,
@@ -292,15 +345,16 @@ db.collection("gallery")
 .orderBy("created","desc")
 .onSnapshot(snap=>{
 
-  let div = document.getElementById("images");
-  div.innerHTML="";
+  images.innerHTML="";
 
   snap.forEach(doc=>{
-    div.innerHTML += `
+
+    images.innerHTML += `
       <div class="gallery-card">
         <img src="${doc.data().url}">
       </div>
     `;
+
   });
 
 });
@@ -310,24 +364,24 @@ db.collection("events")
 .orderBy("created","desc")
 .onSnapshot(snap=>{
 
-  let list = document.getElementById("list");
   list.innerHTML="";
 
   snap.forEach(doc=>{
-    let e = doc.data();
+
+    const e = doc.data();
 
     list.innerHTML += `
       <div class="event-card">
-        <h3>${e.title || ""}</h3>
-        <p>📅 ${e.date || ""}</p>
-        <p>📍 ${e.place || ""}</p>
+        <h3>${e.title||""}</h3>
+        <p>📅 ${e.date||""}</p>
+        <p>📍 ${e.place||""}</p>
 
         <button class="participate-btn">
           Participer 🌿
         </button>
-
       </div>
     `;
+
   });
 
 });
