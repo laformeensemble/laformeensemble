@@ -19,7 +19,7 @@ body{
   color:white;
 }
 
-/* NAV MOBILE */
+/* NAV */
 nav{
   position:fixed;
   bottom:0;
@@ -34,7 +34,7 @@ nav button{
   background:none;
   border:none;
   color:white;
-  font-size:14px;
+  font-size:13px;
 }
 
 /* PAGES */
@@ -44,7 +44,7 @@ section{
   padding-bottom:90px;
 }
 
-.active{
+section.active{
   display:block;
 }
 
@@ -65,35 +65,12 @@ input{
 
 /* BUTTON */
 button{
-  padding:12px;
+  padding:10px;
   width:100%;
   background:#4ade80;
   border:none;
   margin-top:5px;
-  border-radius:12px;
-  color:#0b1220;
-  font-weight:bold;
-  cursor:pointer;
-
-  transition: all 0.2s ease;
-  transform: scale(1);
-}
-
-/* quand on passe la souris */
-button:hover{
-  background:#22c55e;
-  transform: scale(1.03);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-/* effet clic */
-button:active{
-  transform: scale(0.95);
-}
-
-/* effet mobile (tap feedback) */
-button:focus{
-  outline:none;
+  border-radius:10px;
 }
 
 /* IMAGE */
@@ -108,7 +85,7 @@ iframe{
   border:none;
 }
 
-/* ACCUEIL IMAGE */
+/* ACCUEIL */
 #home{
   min-height:100vh;
   display:flex;
@@ -125,16 +102,6 @@ iframe{
   background-position:center;
 }
 
-#home h2{
-  font-size:40px;
-  margin:0;
-}
-
-#home p{
-  font-size:20px;
-  max-width:600px;
-}
-
 </style>
 </head>
 
@@ -143,10 +110,8 @@ iframe{
 <!-- 🟢 ACCUEIL -->
 <section id="home" class="active">
   <h2>La Form'Ensemble 🌿</h2>
-  <p>Sport adapté pour les personnes diabétiques au Parc Montsouris.</p>
-
   <div class="card">
-    Bienvenue sur La Form'Ensemble 🌿
+    Bienvenue sur le site
   </div>
 </section>
 
@@ -175,10 +140,9 @@ iframe{
 <div id="gazBlocked">Connexion requise</div>
 
 <div id="gazContent" style="display:none">
-
 <iframe src="https://drive.google.com/file/d/ID_DU_PDF/preview"></iframe>
-
 </div>
+
 </section>
 
 <!-- 🔒 GALERIE -->
@@ -197,6 +161,7 @@ iframe{
 <div id="images"></div>
 
 </div>
+
 </section>
 
 <!-- NAV -->
@@ -213,22 +178,26 @@ iframe{
 
 // 🔥 FIREBASE
 const firebaseConfig = {
-  apiKey: "AIzaSyC9Onkj0aUzHoQ4LQI5phaMFlNqTbQM74o",
-  authDomain: "la-form-ensemble.firebaseapp.com",
-  projectId: "la-form-ensemble"
+  apiKey: "TON_API_KEY",
+  authDomain: "TON_PROJECT.firebaseapp.com",
+  projectId: "TON_PROJECT"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-/* NAVIGATION */
+/* NAVIGATION ULTRA FIABLE */
 function show(page){
 
   document.querySelectorAll("section").forEach(s=>{
     s.classList.remove("active");
   });
 
-  document.getElementById(page).classList.add("active");
+  const target = document.getElementById(page);
+
+  if(target){
+    target.classList.add("active");
+  }
 
 }
 
