@@ -86,14 +86,6 @@ section.active{
   object-fit:cover;
 }
 
-.download-btn{
-  width:100%;
-  padding:8px;
-  border:none;
-  background:#4ade80;
-  font-weight:bold;
-}
-
 /* LOGIN */
 #login{
   position:fixed;
@@ -147,7 +139,7 @@ section.active{
   <div id="list"></div>
 </section>
 
-<!-- GALLERY -->
+<!-- GALLERY (PROTÉGÉ) -->
 <section id="gallery">
   <h2>Galerie 📸</h2>
 
@@ -161,7 +153,7 @@ section.active{
   </div>
 </section>
 
-<!-- GAZETTE -->
+<!-- GAZETTE (PROTÉGÉ) -->
 <section id="gazette">
   <h2>Gazette 📰</h2>
 
@@ -202,6 +194,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+/* PAGES PROTÉGÉES */
 const protectedPages = ["gallery","gazette"];
 
 /* NAVIGATION */
@@ -237,20 +230,20 @@ function login(){
 /* AUTH CONTROL */
 firebase.auth().onAuthStateChanged(user => {
 
-  const galContent = document.getElementById("galContent");
-  const gazContent = document.getElementById("gazContent");
+  const gal = document.getElementById("galContent");
+  const gaz = document.getElementById("gazContent");
 
   if(user){
-    if(galContent) galContent.style.display = "block";
-    if(gazContent) gazContent.style.display = "block";
+    if(gal) gal.style.display = "block";
+    if(gaz) gaz.style.display = "block";
   } else {
-    if(galContent) galContent.style.display = "none";
-    if(gazContent) gazContent.style.display = "none";
+    if(gal) gal.style.display = "none";
+    if(gaz) gaz.style.display = "none";
   }
 
 });
 
-/* UPLOAD */
+/* UPLOAD IMAGE */
 function uploadImage(){
 
   const file = document.getElementById("imageFile").files[0];
