@@ -23,13 +23,11 @@ body{
 nav{
   position:fixed;
   bottom:0;
-  left:0;
-  right:0;
+  width:100%;
   background:#111827;
   display:flex;
   justify-content:space-around;
   padding:10px 0;
-  z-index:1000;
 }
 
 nav button{
@@ -43,19 +41,19 @@ nav button{
 section{
   display:none;
   padding:20px;
-  padding-bottom:80px;
+  padding-bottom:90px;
 }
 
 .active{
   display:block;
 }
 
-/* CARDS */
+/* CARD */
 .card{
   background:#1f2937;
   padding:15px;
-  border-radius:10px;
   margin-top:10px;
+  border-radius:10px;
 }
 
 /* INPUT */
@@ -94,17 +92,13 @@ iframe{
 <!-- 🟢 ACCUEIL -->
 <section id="home" class="active">
 <h2>Accueil</h2>
-<div class="card">
-Bienvenue sur La Form'Ensemble 🌿
-</div>
+<div class="card">Bienvenue sur La Form'Ensemble 🌿</div>
 </section>
 
 <!-- 🟢 À PROPOS -->
 <section id="about">
 <h2>À propos</h2>
-<div class="card">
-Sport adapté pour personnes diabétiques.
-</div>
+<div class="card">Sport adapté pour diabétiques</div>
 </section>
 
 <!-- 🟢 ÉVÉNEMENTS -->
@@ -116,34 +110,29 @@ Sport adapté pour personnes diabétiques.
 <!-- 🟢 CONTACT -->
 <section id="contact">
 <h2>Contact</h2>
-<div class="card">
-contact@laformensemble.fr
-</div>
+<div class="card">contact@laformensemble.fr</div>
 </section>
 
 <!-- 🔒 GAZETTE -->
 <section id="gazette">
-
 <h2>Gazette 🔒</h2>
 
-<div id="gblocked">Connexion requise</div>
+<div id="gazBlocked">Connexion requise</div>
 
-<div id="gcontent" style="display:none">
+<div id="gazContent" style="display:none">
 
 <iframe src="https://drive.google.com/file/d/ID_DU_PDF/preview"></iframe>
 
 </div>
-
 </section>
 
 <!-- 🔒 GALERIE -->
 <section id="gallery">
-
 <h2>Galerie 📸</h2>
 
-<div id="block">Connexion requise</div>
+<div id="galBlocked">Connexion requise</div>
 
-<div id="content" style="display:none">
+<div id="galContent" style="display:none">
 
 <div class="card">
 <input id="imgUrl" placeholder="Lien image">
@@ -153,7 +142,6 @@ contact@laformensemble.fr
 <div id="images"></div>
 
 </div>
-
 </section>
 
 <!-- NAV -->
@@ -189,23 +177,25 @@ function show(page){
 
 }
 
-/* AUTH CHECK */
+/* AUTH */
 firebase.auth().onAuthStateChanged(user => {
 
-  // GAZETTE
   if(user){
-    document.getElementById("gblocked").style.display = "none";
-    document.getElementById("gcontent").style.display = "block";
 
-    document.getElementById("block").style.display = "none";
-    document.getElementById("content").style.display = "block";
+    document.getElementById("gazBlocked").style.display = "none";
+    document.getElementById("gazContent").style.display = "block";
+
+    document.getElementById("galBlocked").style.display = "none";
+    document.getElementById("galContent").style.display = "block";
 
   }else{
-    document.getElementById("gblocked").style.display = "block";
-    document.getElementById("gcontent").style.display = "none";
 
-    document.getElementById("block").style.display = "block";
-    document.getElementById("content").style.display = "none";
+    document.getElementById("gazBlocked").style.display = "block";
+    document.getElementById("gazContent").style.display = "none";
+
+    document.getElementById("galBlocked").style.display = "block";
+    document.getElementById("galContent").style.display = "none";
+
   }
 
 });
@@ -234,6 +224,28 @@ db.collection("gallery")
     div.innerHTML += `
       <div class="card">
         <img src="${doc.data().url}">
+      </div>
+    `;
+  });
+
+});
+
+/* EVENTS */
+db.collection("events")
+.orderBy("created","desc")
+.onSnapshot(snapshot=>{
+
+  let list = document.getElementById("list");
+  list.innerHTML="";
+
+  snapshot.forEach(doc=>{
+    let e = doc.data();
+
+    list.innerHTML += `
+      <div class="card">
+        <h3>${e.title || ""}</h3>
+        <p>${e.date || ""}</p>
+        <p>${e.place || ""}</p>
       </div>
     `;
   });
