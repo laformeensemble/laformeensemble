@@ -1,196 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Form'Ensemble</title>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
-<style>
-
-*{box-sizing:border-box;}
-
-body{
-  margin:0;
-  font-family:Arial;
-  background:#0b1220;
-  color:white;
-}
-
-/* TOP */
-.topbar{
-  position:fixed;
-  top:0;
-  width:100%;
-  text-align:center;
-  padding:15px;
-  font-weight:bold;
-  color:#4ade80;
-  background:rgba(15,23,42,0.9);
-  z-index:1000;
-}
-
-/* NAV */
-nav{
-  position:fixed;
-  bottom:15px;
-  left:50%;
-  transform:translateX(-50%);
-  width:95%;
-  max-width:700px;
-  background:rgba(17,24,39,0.95);
-  border-radius:20px;
-  display:flex;
-  justify-content:space-around;
-  padding:10px;
-}
-
-/* SECTIONS */
-section{
-  display:none;
-  min-height:100vh;
-  padding:90px 15px 120px;
-}
-
-section.active{
-  display:block;
-}
-
-/* CARDS */
-.card{
-  background:#1f2937;
-  padding:15px;
-  border-radius:12px;
-  margin-top:10px;
-}
-
-/* GALERIE */
-#images{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;
-}
-
-.gallery-card{
-  background:#1f2937;
-  border-radius:12px;
-  overflow:hidden;
-}
-
-.gallery-card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-}
-
-.download-btn{
-  width:100%;
-  padding:8px;
-  border:none;
-  background:#4ade80;
-  font-weight:bold;
-}
-
-/* LOGIN */
-#login{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,0.85);
-  z-index:2000;
-}
-
-#login input{
-  width:80%;
-  max-width:300px;
-  padding:12px;
-  margin:5px;
-  border:none;
-  border-radius:10px;
-}
-
-#login button{
-  width:80%;
-  max-width:300px;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  background:#4ade80;
-  font-weight:bold;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="topbar">La Form'Ensemble 🌿</div>
-
-<!-- HOME -->
-<section id="home" class="active">
-  <h2>Accueil</h2>
-  <div class="card">Bienvenue 🌿</div>
-</section>
-
-<!-- EVENTS -->
-<section id="events">
-  <h2>Événements</h2>
-  <div id="list"></div>
-</section>
-
-<!-- GALLERY -->
-<section id="gallery">
-  <h2>Galerie 📸</h2>
-
-  <div id="galContent" style="display:none">
-
-    <input type="file" id="imageFile">
-    <button onclick="uploadImage()">Uploader</button>
-
-    <div id="images"></div>
-
-  </div>
-
-</section>
-
-<!-- GAZETTE -->
-<section id="gazette">
-  <h2>Gazette 📰</h2>
-
-  <div id="gazContent" style="display:none">
-    <div class="card">PDF ici</div>
-  </div>
-
-</section>
-
-<!-- LOGIN -->
-<section id="login">
-  <h2>Connexion 🔐</h2>
-
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Mot de passe">
-  <button onclick="login()">Se connecter</button>
-
-</section>
-
-<!-- NAV -->
-<nav>
-<button onclick="show('home')">🏠</button>
-<button onclick="show('events')">📅</button>
-<button onclick="show('gallery')">📸</button>
-<button onclick="show('gazette')">📰</button>
-<button onclick="show('login')">🔐</button>
-</nav>
-
 <script>
 
 /* FIREBASE */
@@ -210,6 +17,7 @@ function show(page){
 
   const user = firebase.auth().currentUser;
 
+  // 🔒 seulement ces pages sont protégées
   if(protectedPages.includes(page) && !user){
     page = "login";
   }
@@ -220,6 +28,7 @@ function show(page){
   const target = document.getElementById(page);
   if(target) target.classList.add("active");
 
+  window.scrollTo(0,0);
 }
 
 /* LOGIN */
@@ -227,105 +36,29 @@ function login(){
 
   firebase.auth()
   .signInWithEmailAndPassword(email.value, password.value)
-  .then(()=>show("home"))
+  .then(()=>show("gallery"))
   .catch(e=>alert(e.message));
 
 }
 
-/* AUTH CONTROL */
-firebase.auth().onAuthStateChanged(user=>{
+/* AUTH CONTROL (IMPORTANT) */
+firebase.auth().onAuthStateChanged(user => {
 
   const galContent = document.getElementById("galContent");
   const gazContent = document.getElementById("gazContent");
 
   if(user){
-    if(galContent) galContent.style.display="block";
-    if(gazContent) gazContent.style.display="block";
-  }else{
-    if(galContent) galContent.style.display="none";
-    if(gazContent) gazContent.style.display="none";
+
+    if(galContent) galContent.style.display = "block";
+    if(gazContent) gazContent.style.display = "block";
+
+  } else {
+
+    if(galContent) galContent.style.display = "none";
+    if(gazContent) gazContent.style.display = "none";
+
   }
 
 });
 
-/* UPLOAD */
-function uploadImage(){
-
-  const file = imageFile.files[0];
-  const reader = new FileReader();
-
-  reader.onload = e=>{
-
-    db.collection("gallery").add({
-      url:e.target.result,
-      created:Date.now()
-    });
-
-  };
-
-  reader.readAsDataURL(file);
-
-}
-
-/* LOAD IMAGES */
-db.collection("gallery")
-.orderBy("created","desc")
-.onSnapshot(snap=>{
-
-  images.innerHTML="";
-
-  snap.forEach(doc=>{
-
-    const url = doc.data().url;
-
-    images.innerHTML += `
-      <div class="gallery-card">
-        <img src="${url}">
-        <button class="download-btn"
-        onclick="downloadImage('${url}')">
-        Télécharger
-        </button>
-      </div>
-    `;
-
-  });
-
-});
-
-/* DOWNLOAD */
-function downloadImage(url){
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "image.jpg";
-  a.click();
-
-}
-
-/* EVENTS */
-db.collection("events")
-.orderBy("created","desc")
-.onSnapshot(snap=>{
-
-  list.innerHTML="";
-
-  snap.forEach(doc=>{
-
-    const e = doc.data();
-
-    list.innerHTML += `
-      <div class="card">
-        <h3>${e.title||""}</h3>
-        <p>${e.date||""}</p>
-        <p>${e.place||""}</p>
-      </div>
-    `;
-
-  });
-
-});
-
 </script>
-
-</body>
-</html>
