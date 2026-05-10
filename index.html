@@ -131,21 +131,37 @@ nav button:active{
 }
 
 /* PAGE */
-section{
+function show(page){
 
-  display:none;
+  const user = firebase.auth().currentUser;
 
-  min-height:100vh;
+  /* pages protégées */
+  if(
+    (page === "gallery" || page === "gazette")
+    && !user
+  ){
 
-  padding:
-  100px 20px 120px;
+    alert("🔒 Connexion requise");
 
-  animation:fade 0.3s ease;
+    page = "login";
 
-}
+  }
 
-section.active{
-  display:block;
+  document.querySelectorAll("section")
+  .forEach(s=>{
+
+    s.classList.remove("active");
+
+  });
+
+  document.getElementById(page)
+  .classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
 
 /* ANIMATION */
