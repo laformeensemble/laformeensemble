@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>La Form'Ensemble</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -11,113 +12,198 @@
 
 <style>
 
-*{box-sizing:border-box;}
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
-  font-family:Arial;
+  font-family:Arial,sans-serif;
   background:#0b1220;
   color:white;
 }
 
-/* TOP */
+/* TOP BAR */
 .topbar{
   position:fixed;
   top:0;
+  left:0;
   width:100%;
   text-align:center;
-  padding:15px;
+  padding:16px;
+  font-size:22px;
   font-weight:bold;
   color:#4ade80;
-  background:rgba(15,23,42,0.9);
+  background:rgba(15,23,42,0.92);
+  backdrop-filter:blur(12px);
   z-index:1000;
 }
 
-/* NAV */
+/* NAVIGATION */
 nav{
   position:fixed;
   bottom:15px;
   left:50%;
   transform:translateX(-50%);
   width:95%;
-  max-width:700px;
+  max-width:750px;
   background:rgba(17,24,39,0.95);
-  border-radius:20px;
+  backdrop-filter:blur(12px);
+  border-radius:25px;
   display:flex;
   justify-content:space-around;
   padding:10px;
+  z-index:1000;
+}
+
+nav button{
+  background:none;
+  border:none;
+  color:white;
+  font-size:13px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+nav button:hover{
+  transform:scale(1.08);
+  color:#4ade80;
 }
 
 /* SECTIONS */
 section{
   display:none;
   min-height:100vh;
-  padding:90px 15px 120px;
+  padding:100px 20px 120px;
 }
 
 section.active{
   display:block;
 }
 
+/* HOME */
+#home{
+  background:
+  linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.7)),
+  url("fond.jpg");
+
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+.hero{
+  text-align:center;
+  margin-top:120px;
+}
+
+.hero h1{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  font-size:18px;
+  max-width:700px;
+  margin:auto;
+}
+
 /* CARD */
 .card{
   background:#1f2937;
-  padding:15px;
-  border-radius:12px;
-  margin-top:10px;
+  border-radius:18px;
+  padding:18px;
+  margin-top:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
-/* GALERIE */
+/* EVENTS */
+.event-card{
+  background:#1f2937;
+  border-radius:18px;
+  padding:18px;
+  margin-top:15px;
+}
+
+.participate-btn{
+  width:100%;
+  margin-top:10px;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#4ade80;
+  color:#0b1220;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* GALLERY */
 #images{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:15px;
+  margin-top:20px;
 }
 
 .gallery-card{
   background:#1f2937;
-  border-radius:12px;
+  border-radius:15px;
   overflow:hidden;
 }
 
 .gallery-card img{
   width:100%;
-  height:180px;
+  height:220px;
   object-fit:cover;
+}
+
+.download-btn{
+  width:100%;
+  padding:10px;
+  border:none;
+  background:#4ade80;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+/* INPUTS */
+input{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  margin-top:10px;
+}
+
+/* BUTTON */
+.main-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#4ade80;
+  color:#0b1220;
+  font-weight:bold;
+  margin-top:10px;
+  cursor:pointer;
 }
 
 /* LOGIN */
 #login{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,0.85);
-  z-index:2000;
+  background:#0b1220;
 }
 
-#login input{
-  width:80%;
-  max-width:300px;
-  padding:12px;
-  margin:5px;
-  border:none;
-  border-radius:10px;
-}
-
-#login button{
-  width:80%;
-  max-width:300px;
-  padding:12px;
-  border:none;
-  border-radius:10px;
-  background:#4ade80;
-  font-weight:bold;
+.login-box{
+  max-width:400px;
+  margin:100px auto;
+  background:#1f2937;
+  padding:25px;
+  border-radius:20px;
+  text-align:center;
 }
 
 </style>
@@ -125,61 +211,119 @@ section.active{
 
 <body>
 
-<div class="topbar">La Form'Ensemble 🌿</div>
+<!-- TOP -->
+<div class="topbar">
+La Form'Ensemble 🌿
+</div>
 
 <!-- HOME -->
 <section id="home" class="active">
-  <h2>Accueil</h2>
-  <div class="card">Bienvenue 🌿</div>
+
+<div class="hero">
+<h1>La Form'Ensemble 🌿</h1>
+
+<p>
+Sport adapté pour les personnes diabétiques
+au Parc Montsouris.
+</p>
+</div>
+
 </section>
 
 <!-- EVENTS -->
 <section id="events">
-  <h2>Événements</h2>
-  <div id="list"></div>
+
+<h2>Événements 📅</h2>
+
+<div id="list"></div>
+
 </section>
 
-<!-- GALLERY (PROTÉGÉ) -->
+<!-- GALLERY -->
 <section id="gallery">
-  <h2>Galerie 📸</h2>
 
-  <div id="galContent" style="display:none">
+<h2>Galerie 📸</h2>
 
-    <input type="file" id="imageFile">
-    <button onclick="uploadImage()">Uploader</button>
+<div id="galContent" style="display:none;">
 
-    <div id="images"></div>
+<input type="file" id="imageFile">
 
-  </div>
+<button class="main-btn" onclick="uploadImage()">
+Uploader une image
+</button>
+
+<div id="images"></div>
+
+</div>
+
 </section>
 
-<!-- GAZETTE (PROTÉGÉ) -->
+<!-- GAZETTE -->
 <section id="gazette">
-  <h2>Gazette 📰</h2>
 
-  <div id="gazContent" style="display:none">
-    <div class="card">PDF ici</div>
-  </div>
+<h2>Gazette 📰</h2>
+
+<div id="gazContent" style="display:none;">
+
+<div class="card">
+PDF ici
+</div>
+
+</div>
 
 </section>
 
 <!-- LOGIN -->
 <section id="login">
-  <h2>Connexion 🔐</h2>
 
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Mot de passe">
-  <button onclick="login()">Se connecter</button>
+<div class="login-box">
+
+<h2>Connexion 🔐</h2>
+
+<input id="email" placeholder="Email">
+
+<input
+id="password"
+type="password"
+placeholder="Mot de passe"
+>
+
+<button class="main-btn" onclick="login()">
+Se connecter
+</button>
+
+</div>
 
 </section>
 
 <!-- NAV -->
 <nav>
-<button onclick="show('home')">🏠</button>
-<button onclick="show('events')">📅</button>
-<button onclick="show('gallery')">📸</button>
-<button onclick="show('gazette')">📰</button>
-<button onclick="show('login')">🔐</button>
+
+<button onclick="show('home')">
+🏠
+<span>Accueil</span>
+</button>
+
+<button onclick="show('events')">
+📅
+<span>Events</span>
+</button>
+
+<button onclick="show('gallery')">
+📸
+<span>Galerie</span>
+</button>
+
+<button onclick="show('gazette')">
+📰
+<span>Gazette</span>
+</button>
+
+<button onclick="show('login')">
+🔐
+<span>Connexion</span>
+</button>
+
 </nav>
 
 <script>
@@ -192,6 +336,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
 const db = firebase.firestore();
 
 /* PAGES PROTÉGÉES */
@@ -202,43 +347,90 @@ function show(page){
 
   const user = firebase.auth().currentUser;
 
+  /* BLOQUE UNIQUEMENT GALLERY + GAZETTE */
   if(protectedPages.includes(page) && !user){
+
+    alert("🔒 Connexion requise");
+
     page = "login";
   }
 
   document.querySelectorAll("section")
-  .forEach(s => s.classList.remove("active"));
+  .forEach(section => {
+    section.classList.remove("active");
+  });
 
-  const target = document.getElementById(page);
-  if(target) target.classList.add("active");
+  const target =
+  document.getElementById(page);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
 /* LOGIN */
 function login(){
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email =
+  document.getElementById("email").value;
+
+  const password =
+  document.getElementById("password").value;
 
   firebase.auth()
-  .signInWithEmailAndPassword(email, password)
-  .then(()=> show("home"))
-  .catch(e=> alert(e.message));
+  .signInWithEmailAndPassword(email,password)
+
+  .then(()=>{
+
+    alert("Connexion réussie ✅");
+
+    show("home");
+
+  })
+
+  .catch(error=>{
+
+    alert(error.message);
+
+  });
 
 }
 
-/* AUTH CONTROL */
-firebase.auth().onAuthStateChanged(user => {
+/* AUTH */
+firebase.auth().onAuthStateChanged(user=>{
 
-  const gal = document.getElementById("galContent");
-  const gaz = document.getElementById("gazContent");
+  const gal =
+  document.getElementById("galContent");
+
+  const gaz =
+  document.getElementById("gazContent");
 
   if(user){
-    if(gal) gal.style.display = "block";
-    if(gaz) gaz.style.display = "block";
-  } else {
-    if(gal) gal.style.display = "none";
-    if(gaz) gaz.style.display = "none";
+
+    if(gal){
+      gal.style.display="block";
+    }
+
+    if(gaz){
+      gaz.style.display="block";
+    }
+
+  }else{
+
+    if(gal){
+      gal.style.display="none";
+    }
+
+    if(gaz){
+      gaz.style.display="none";
+    }
+
   }
 
 });
@@ -246,16 +438,25 @@ firebase.auth().onAuthStateChanged(user => {
 /* UPLOAD IMAGE */
 function uploadImage(){
 
-  const file = document.getElementById("imageFile").files[0];
-  if(!file) return;
+  const file =
+  document.getElementById("imageFile").files[0];
+
+  if(!file){
+
+    alert("Choisis une image");
+
+    return;
+  }
 
   const reader = new FileReader();
 
-  reader.onload = e=>{
+  reader.onload = function(e){
 
     db.collection("gallery").add({
+
       url:e.target.result,
       created:Date.now()
+
     });
 
   };
@@ -267,41 +468,82 @@ function uploadImage(){
 /* LOAD IMAGES */
 db.collection("gallery")
 .orderBy("created","desc")
-.onSnapshot(snap=>{
+.onSnapshot(snapshot=>{
 
-  const images = document.getElementById("images");
+  const images =
+  document.getElementById("images");
+
   images.innerHTML="";
 
-  snap.forEach(doc=>{
+  snapshot.forEach(doc=>{
+
+    const url = doc.data().url;
 
     images.innerHTML += `
+
       <div class="gallery-card">
-        <img src="${doc.data().url}">
+
+        <img src="${url}">
+
+        <button
+        class="download-btn"
+        onclick="downloadImage('${url}')">
+
+        Télécharger ⬇️
+
+        </button>
+
       </div>
+
     `;
 
   });
 
 });
 
+/* DOWNLOAD */
+function downloadImage(url){
+
+  const a = document.createElement("a");
+
+  a.href = url;
+
+  a.download = "image.jpg";
+
+  a.click();
+
+}
+
 /* EVENTS */
 db.collection("events")
 .orderBy("created","desc")
-.onSnapshot(snap=>{
+.onSnapshot(snapshot=>{
 
-  const list = document.getElementById("list");
+  const list =
+  document.getElementById("list");
+
   list.innerHTML="";
 
-  snap.forEach(doc=>{
+  snapshot.forEach(doc=>{
 
     const e = doc.data();
 
     list.innerHTML += `
-      <div class="card">
-        <h3>${e.title||""}</h3>
-        <p>${e.date||""}</p>
-        <p>${e.place||""}</p>
+
+      <div class="event-card">
+
+        <h3>${e.title || ""}</h3>
+
+        <p>📅 ${e.date || ""}</p>
+
+        <p>📍 ${e.place || ""}</p>
+
+        <button class="participate-btn">
+        Participer 🌿
+        </button>
+
       </div>
+
     `;
 
   });
