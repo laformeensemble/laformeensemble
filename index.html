@@ -136,6 +136,7 @@ section.active{
   background:#4ade80;
   color:#0b1220;
   font-weight:bold;
+  cursor:pointer;
 }
 
 /* GALLERY */
@@ -213,12 +214,14 @@ La Form'Ensemble 🌿
 <section id="home" class="active">
 
 <div class="hero">
+
 <h1>La Form'Ensemble 🌿</h1>
 
 <p>
 Sport adapté pour les personnes diabétiques
 au Parc Montsouris.
 </p>
+
 </div>
 
 </section>
@@ -273,7 +276,11 @@ PDF ici
 
 <h2>Connexion 🔐</h2>
 
-<input id="email" placeholder="Email">
+<input
+id="email"
+placeholder="Email"
+type="email"
+>
 
 <input
 id="password"
@@ -332,13 +339,55 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-/* NAVIGATION SÉCURISÉE */
+/* ÉTAT CONNEXION */
+let isLogged = false;
+
+/* AUTH FIREBASE */
+firebase.auth().onAuthStateChanged(user => {
+
+  const gal =
+  document.getElementById("galContent");
+
+  const gaz =
+  document.getElementById("gazContent");
+
+  if(user){
+
+    isLogged = true;
+
+    if(gal){
+      gal.style.display = "block";
+    }
+
+    if(gaz){
+      gaz.style.display = "block";
+    }
+
+  }else{
+
+    isLogged = false;
+
+    if(gal){
+      gal.style.display = "none";
+    }
+
+    if(gaz){
+      gaz.style.display = "none";
+    }
+
+  }
+
+});
+
+/* NAVIGATION */
 function show(page){
 
-  const user = firebase.auth().currentUser;
-
   /* 🔒 SI PAS CONNECTÉ */
-  if((page === "gallery" || page === "gazette") && !user){
+  if(
+    (page === "gallery" || page === "gazette")
+    &&
+    !isLogged
+  ){
 
     /* cache tout */
     document.querySelectorAll("section")
@@ -406,41 +455,15 @@ function login(){
 
 }
 
-/* AUTH */
-firebase.auth().onAuthStateChanged(user=>{
-
-  const gal =
-  document.getElementById("galContent");
-
-  const gaz =
-  document.getElementById("gazContent");
-
-  if(user){
-
-    if(gal){
-      gal.style.display="block";
-    }
-
-    if(gaz){
-      gaz.style.display="block";
-    }
-
-  }else{
-
-    if(gal){
-      gal.style.display="none";
-    }
-
-    if(gaz){
-      gaz.style.display="none";
-    }
-
-  }
-
-});
-
 /* UPLOAD IMAGE */
 function uploadImage(){
+
+  if(!isLogged){
+
+    show("login");
+
+    return;
+  }
 
   const file =
   document.getElementById("imageFile").files[0];
@@ -477,7 +500,9 @@ db.collection("gallery")
   const images =
   document.getElementById("images");
 
-  images.innerHTML="";
+  if(!images) return;
+
+  images.innerHTML = "";
 
   snapshot.forEach(doc=>{
 
@@ -526,7 +551,9 @@ db.collection("events")
   const list =
   document.getElementById("list");
 
-  list.innerHTML="";
+  if(!list) return;
+
+  list.innerHTML = "";
 
   snapshot.forEach(doc=>{
 
