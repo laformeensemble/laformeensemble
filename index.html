@@ -1,9 +1,11 @@
+# Code complet — La Form'Ensemble
+
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>La Form'Ensemble</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -23,20 +25,35 @@ body{
   color:white;
 }
 
-/* TOP */
+/* TOPBAR */
 .topbar{
   position:fixed;
   top:0;
   left:0;
   width:100%;
-  text-align:center;
-  padding:16px;
+  padding:14px;
+  background:rgba(15,23,42,0.95);
+  backdrop-filter:blur(12px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  z-index:1000;
+  box-shadow:0 5px 20px rgba(0,0,0,0.25);
+}
+
+.logo{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  object-fit:cover;
+  background:white;
+}
+
+.title{
   font-size:22px;
   font-weight:bold;
   color:#4ade80;
-  background:rgba(15,23,42,0.92);
-  backdrop-filter:blur(12px);
-  z-index:1000;
 }
 
 /* NAV */
@@ -46,13 +63,14 @@ nav{
   left:50%;
   transform:translateX(-50%);
   width:95%;
-  max-width:850px;
+  max-width:900px;
   background:rgba(17,24,39,0.95);
   border-radius:25px;
   display:flex;
   justify-content:space-around;
   padding:10px;
   z-index:1000;
+  backdrop-filter:blur(10px);
 }
 
 nav button{
@@ -63,7 +81,6 @@ nav button{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:4px;
   cursor:pointer;
   transition:0.2s;
 }
@@ -73,7 +90,7 @@ nav button:hover{
   color:#4ade80;
 }
 
-/* SECTIONS */
+/* PAGES */
 section{
   display:none;
   min-height:100vh;
@@ -87,8 +104,8 @@ section.active{
 /* HOME */
 #home{
   background:
-  linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.7)),
-  url("fond.jpg");
+  linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.7)),
+  url('fond.jpg');
 
   background-size:cover;
   background-position:center;
@@ -96,75 +113,68 @@ section.active{
 }
 
 .hero{
-  text-align:center;
   margin-top:120px;
+  text-align:center;
 }
 
 .hero h1{
-  font-size:42px;
+  font-size:45px;
   margin-bottom:10px;
 }
 
 .hero p{
-  font-size:18px;
+  font-size:20px;
   max-width:700px;
   margin:auto;
+  line-height:1.5;
 }
 
 /* CARD */
-.card{
-  background:#1f2937;
-  border-radius:18px;
-  padding:18px;
-  margin-top:15px;
-}
-
-/* EVENTS */
-.event-card{
-  background:#1f2937;
-  border-radius:18px;
-  padding:18px;
-  margin-top:15px;
-}
-
-.participate-btn{
-  width:100%;
-  margin-top:10px;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:#4ade80;
-  color:#0b1220;
-  font-weight:bold;
-}
-
-/* GALLERY */
-#images{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:15px;
-  margin-top:20px;
-}
-
+.card,
+.event-card,
 .gallery-card{
   background:#1f2937;
-  border-radius:15px;
+  border-radius:18px;
   overflow:hidden;
+  margin-top:15px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.25);
 }
 
-.gallery-card img{
-  width:100%;
-  height:220px;
-  object-fit:cover;
+.card,
+.event-card{
+  padding:18px;
 }
 
-.download-btn{
+/* BUTTONS */
+.main-btn,
+.download-btn,
+.delete-btn,
+.participate-btn{
   width:100%;
-  padding:10px;
   border:none;
-  background:#4ade80;
+  padding:12px;
   font-weight:bold;
   cursor:pointer;
+  transition:0.2s;
+}
+
+.main-btn,
+.download-btn,
+.participate-btn{
+  background:#4ade80;
+  color:#0b1220;
+}
+
+.delete-btn{
+  background:#ef4444;
+  color:white;
+}
+
+.main-btn:hover,
+.download-btn:hover,
+.participate-btn:hover,
+.delete-btn:hover{
+  transform:scale(1.02);
 }
 
 /* INPUTS */
@@ -176,37 +186,55 @@ input{
   margin-top:10px;
 }
 
-/* BUTTON */
-.main-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  background:#4ade80;
-  color:#0b1220;
-  font-weight:bold;
-  margin-top:10px;
-  cursor:pointer;
-}
-
 /* LOGIN */
 .login-box{
-  max-width:400px;
+  max-width:420px;
   margin:120px auto;
   background:#1f2937;
   padding:25px;
   border-radius:20px;
-  text-align:center;
+}
+
+/* GALLERY */
+#images{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+
+.gallery-card img{
+  width:100%;
+  height:230px;
+  object-fit:cover;
+}
+
+.gallery-actions{
+  display:flex;
+  gap:8px;
+  padding:10px;
+}
+
+.gallery-actions button{
+  flex:1;
 }
 
 </style>
 </head>
-
 <body>
 
-<!-- TOP -->
+<!-- TOPBAR -->
 <div class="topbar">
+
+<img
+class="logo"
+src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACgCAIAAAAErfB6AAAN8UlEQVR4nO2dW2wc1RnHz+7M7m5jO/axnTiJQ8cY4wQ4lQqV0kQKVaUqKBRQKpVKKQkqQkW8qP6A0l+gVSoVEKpQhH6gMUpVSpFKlSptSCUJtC0GxM7iT3Y3vZnd3Z2Z2dmfM7M7O3N7Z2bnz3vM9c8+M7J7z3HPP+Z7z/3M4lJmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmZmb0f8A9x9d6wJg8nUAAAAASUVORK5CYII="
+>
+
+<div class="title">
 La Form'Ensemble 🌿
+</div>
+
 </div>
 
 <!-- HOME -->
@@ -217,7 +245,8 @@ La Form'Ensemble 🌿
 <h1>La Form'Ensemble 🌿</h1>
 
 <p>
-Sport, Santé, Bien-Être
+Sport adapté pour les personnes diabétiques au Parc Montsouris.
+Bouger ensemble, progresser ensemble.
 </p>
 
 </div>
@@ -260,7 +289,7 @@ Uploader une image
 <div id="gazContent" style="display:none;">
 
 <div class="card">
-https://drive.google.com/file/d/1gqvaq3QcIzlep90oV7FTBYvJY2uNq6PB/view?usp=sharing/preview
+Ajoute ici ton PDF ou tes actualités.
 </div>
 
 </div>
@@ -274,17 +303,9 @@ https://drive.google.com/file/d/1gqvaq3QcIzlep90oV7FTBYvJY2uNq6PB/view?usp=shari
 
 <h2>Connexion 🔐</h2>
 
-<input
-id="email"
-placeholder="Email"
-type="email"
->
+<input id="email" type="email" placeholder="Email">
 
-<input
-id="password"
-type="password"
-placeholder="Mot de passe"
->
+<input id="password" type="password" placeholder="Mot de passe">
 
 <button class="main-btn" onclick="login()">
 Se connecter
@@ -339,44 +360,31 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
 const db = firebase.firestore();
 
-/* ÉTAT CONNEXION */
+/* CLOUDINARY */
+const CLOUD_NAME = "dmcp3mbqj";
+const UPLOAD_PRESET = "laformensemble";
+
+/* LOGIN STATE */
 let isLogged = false;
 
 /* AUTH */
 firebase.auth().onAuthStateChanged(user => {
 
-  const gal =
-  document.getElementById("galContent");
-
-  const gaz =
-  document.getElementById("gazContent");
-
   if(user){
 
     isLogged = true;
 
-    if(gal){
-      gal.style.display = "block";
-    }
-
-    if(gaz){
-      gaz.style.display = "block";
-    }
+    galContent.style.display = "block";
+    gazContent.style.display = "block";
 
   }else{
 
     isLogged = false;
 
-    if(gal){
-      gal.style.display = "none";
-    }
-
-    if(gaz){
-      gaz.style.display = "none";
-    }
+    galContent.style.display = "none";
+    gazContent.style.display = "none";
 
   }
 
@@ -385,27 +393,17 @@ firebase.auth().onAuthStateChanged(user => {
 /* NAVIGATION */
 function show(page){
 
-  /* 🔒 BLOQUE GALLERY + GAZETTE */
-  if(
-    (page === "gallery" || page === "gazette")
-    &&
-    !isLogged
-  ){
-
+  if((page === "gallery" || page === "gazette") && !isLogged){
     page = "login";
   }
 
   document.querySelectorAll("section")
-  .forEach(section=>{
+  .forEach(section => {
     section.classList.remove("active");
   });
 
-  const target =
-  document.getElementById(page);
-
-  if(target){
-    target.classList.add("active");
-  }
+  document.getElementById(page)
+  .classList.add("active");
 
   window.scrollTo({
     top:0,
@@ -417,12 +415,6 @@ function show(page){
 /* LOGIN */
 function login(){
 
-  const email =
-  document.getElementById("email").value;
-
-  const password =
-  document.getElementById("password").value;
-
   firebase.auth().setPersistence(
     firebase.auth.Auth.Persistence.SESSION
   )
@@ -431,8 +423,8 @@ function login(){
 
     return firebase.auth()
     .signInWithEmailAndPassword(
-      email,
-      password
+      email.value,
+      password.value
     );
 
   })
@@ -457,7 +449,6 @@ function login(){
 function logout(){
 
   firebase.auth().signOut()
-
   .then(()=>{
 
     isLogged = false;
@@ -470,40 +461,51 @@ function logout(){
 
 }
 
-/* UPLOAD IMAGE */
-function uploadImage(){
+/* UPLOAD IMAGE CLOUDINARY */
+async function uploadImage(){
 
   if(!isLogged){
-
     show("login");
-
     return;
   }
 
-  const file =
-  document.getElementById("imageFile").files[0];
+  const file = imageFile.files[0];
 
   if(!file){
-
     alert("Choisis une image");
-
     return;
   }
 
-  const reader = new FileReader();
+  const formData = new FormData();
 
-  reader.onload = function(e){
+  formData.append("file", file);
+  formData.append("upload_preset", UPLOAD_PRESET);
 
-    db.collection("gallery").add({
+  try{
 
-      url:e.target.result,
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      {
+        method:"POST",
+        body:formData
+      }
+    );
+
+    const data = await response.json();
+
+    await db.collection("gallery").add({
+      url:data.secure_url,
+      public_id:data.public_id,
       created:Date.now()
-
     });
 
-  };
+    alert("Image uploadée ✅");
 
-  reader.readAsDataURL(file);
+  }catch(error){
+
+    alert("Erreur upload");
+
+  }
 
 }
 
@@ -512,32 +514,35 @@ db.collection("gallery")
 .orderBy("created","desc")
 .onSnapshot(snapshot=>{
 
-  const images =
-  document.getElementById("images");
-
-  if(!images) return;
-
   images.innerHTML = "";
 
   snapshot.forEach(doc=>{
 
-    const url = doc.data().url;
+    const data = doc.data();
 
     images.innerHTML += `
 
-      <div class="gallery-card">
+    <div class="gallery-card">
 
-        <img src="${url}">
+      <img src="${data.url}">
+
+      <div class="gallery-actions">
 
         <button
         class="download-btn"
-        onclick="downloadImage('${url}')">
+        onclick="downloadImage('${data.url}')">
+        Télécharger
+        </button>
 
-        Télécharger ⬇️
-
+        <button
+        class="delete-btn"
+        onclick="deleteImage('${doc.id}')">
+        Supprimer
         </button>
 
       </div>
+
+    </div>
 
     `;
 
@@ -545,16 +550,39 @@ db.collection("gallery")
 
 });
 
+/* DELETE IMAGE */
+async function deleteImage(id){
+
+  if(!isLogged){
+    show("login");
+    return;
+  }
+
+  const confirmDelete = confirm(
+    "Supprimer cette image ?"
+  );
+
+  if(!confirmDelete) return;
+
+  await db.collection("gallery")
+  .doc(id)
+  .delete();
+
+}
+
 /* DOWNLOAD */
 function downloadImage(url){
 
   const a = document.createElement("a");
 
   a.href = url;
-
   a.download = "image.jpg";
 
+  document.body.appendChild(a);
+
   a.click();
+
+  document.body.removeChild(a);
 
 }
 
@@ -562,11 +590,6 @@ function downloadImage(url){
 db.collection("events")
 .orderBy("created","desc")
 .onSnapshot(snapshot=>{
-
-  const list =
-  document.getElementById("list");
-
-  if(!list) return;
 
   list.innerHTML = "";
 
@@ -576,19 +599,19 @@ db.collection("events")
 
     list.innerHTML += `
 
-      <div class="event-card">
+    <div class="event-card">
 
-        <h3>${e.title || ""}</h3>
+      <h3>${e.title || ''}</h3>
 
-        <p>📅 ${e.date || ""}</p>
+      <p>📅 ${e.date || ''}</p>
 
-        <p>📍 ${e.place || ""}</p>
+      <p>📍 ${e.place || ''}</p>
 
-        <button class="participate-btn">
-        Participer 🌿
-        </button>
+      <button class="participate-btn">
+      Participer 🌿
+      </button>
 
-      </div>
+    </div>
 
     `;
 
@@ -600,3 +623,25 @@ db.collection("events")
 
 </body>
 </html>
+```
+
+## Règles Firestore à mettre
+
+```javascript
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /gallery/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /events/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+  }
+}
+```
