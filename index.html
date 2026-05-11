@@ -74,18 +74,22 @@ nav{
 }
 
 nav button{
+  min-width:80px;
+  padding:8px;
   background:none;
   border:none;
   color:white;
-  font-size:13px;
+  font-size:14px;
   display:flex;
   flex-direction:column;
   align-items:center;
   cursor:pointer;
-  transition:0.2s;
+  transition:0.25s;
+  border-radius:16px;
 }
 
 nav button:hover{
+  background:rgba(74,222,128,0.12);
   transform:scale(1.08);
   color:#4ade80;
 }
@@ -150,6 +154,8 @@ section.active{
 .download-btn,
 .delete-btn,
 .participate-btn{
+  border-radius:14px;
+  font-size:15px;
   width:100%;
   border:none;
   padding:12px;
@@ -217,6 +223,37 @@ input{
 
 .gallery-actions button{
   flex:1;
+}
+
+/* FULLSCREEN IMAGE */
+.fullscreen{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.92);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:5000;
+  padding:20px;
+}
+
+.fullscreen img{
+  max-width:95%;
+  max-height:95%;
+  border-radius:20px;
+}
+
+.close-fullscreen{
+  position:absolute;
+  top:20px;
+  right:20px;
+  background:#ef4444;
+  color:white;
+  border:none;
+  border-radius:12px;
+  padding:10px 14px;
+  font-size:18px;
+  cursor:pointer;
 }
 
 </style>
@@ -289,7 +326,21 @@ Uploader une image
 <div id="gazContent" style="display:none;">
 
 <div class="card">
-Ajoute ici ton PDF ou tes actualités.
+
+<h3>Gazette La Form'Ensemble 📰</h3>
+
+<p>
+Ajoute le lien de ton PDF ci-dessous pour afficher
+la gazette directement dans le site.
+</p>
+
+<iframe
+src="gazette.pdf"
+width="100%"
+height="700"
+style="border:none;border-radius:12px;margin-top:15px;background:white;">
+</iframe>
+
 </div>
 
 </div>
@@ -524,7 +575,10 @@ db.collection("gallery")
 
     <div class="gallery-card">
 
-      <img src="${data.url}">
+      <img
+src="${data.url}"
+onclick="openFullscreen('${data.url}')"
+style="cursor:pointer;">
 
       <div class="gallery-actions">
 
@@ -571,6 +625,41 @@ async function deleteImage(id){
 }
 
 /* DOWNLOAD */
+function openFullscreen(url){
+
+  document.getElementById("fullscreen")
+  .style.display = "flex";
+
+  document.getElementById("fullscreenImg")
+  .src = url;
+
+}
+
+function closeFullscreen(){
+
+  document.getElementById("fullscreen")
+  .style.display = "none";
+
+}
+
+/* PARTICIPATION */
+async function participate(eventName){
+
+  const name = prompt("Ton prénom ?");
+
+  if(!name) return;
+
+  await db.collection("participants")
+  .add({
+    name:name,
+    event:eventName,
+    created:Date.now()
+  });
+
+  alert("Participation enregistrée ✅");
+
+}
+
 function downloadImage(url){
 
   const a = document.createElement("a");
@@ -607,9 +696,9 @@ db.collection("events")
 
       <p>📍 ${e.place || ''}</p>
 
-      <button class="participate-btn">
-      Participer 🌿
-      </button>
+      <button class="participate-btn" onclick="participate('${e.title || ''}')">
+Participer 🌿
+</button>
 
     </div>
 
@@ -620,6 +709,19 @@ db.collection("events")
 });
 
 </script>
+
+<!-- FULLSCREEN IMAGE -->
+<div class="fullscreen" id="fullscreen">
+
+<button
+class="close-fullscreen"
+onclick="closeFullscreen()">
+✕
+</button>
+
+<img id="fullscreenImg">
+
+</div>
 
 </body>
 </html>
