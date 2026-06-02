@@ -1,15 +1,23 @@
 {
   "name": "La Form'Ensemble",
-  "short_name": "La Form",
-  "start_url": "/",
+  "short_name": "FormEnsemble",
+  "description": "Sport, Santé, Bien-être",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0b1220",
   "theme_color": "#4ade80",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "logo.png",
+      "src": "logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "logo.jpg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/jpeg"
     }
   ]
 }
