@@ -1,9 +1,10 @@
 {
+  "id": "/",
   "name": "La Form'Ensemble",
   "short_name": "FormEnsemble",
-  "description": "Application de sport, santé et bien-être pour suivre les événements et la galerie.",
+  "description": "Application de sport, santé et bien-être.",
   "lang": "fr",
-  "start_url": "/",
+  "start_url": "/index.html",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0b1220",
@@ -11,14 +12,14 @@
   "orientation": "portrait",
   "icons": [
     {
-      "src": "logo.jpg",
+      "src": "logo.png",
       "sizes": "192x192",
-      "type": "image/jpeg"
+      "type": "image/png"
     },
     {
-      "src": "logo.jpg",
+      "src": "logo.png",
       "sizes": "512x512",
-      "type": "image/jpeg"
+      "type": "image/png"
     }
   ]
 }
