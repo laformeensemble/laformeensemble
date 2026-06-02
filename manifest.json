@@ -1,9 +1,10 @@
 {
   "name": "La Form'Ensemble",
   "short_name": "FormEnsemble",
-  "description": "Sport, Santé, Bien-être",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "Application de sport, santé et bien-être pour suivre les événements et la galerie.",
+  "lang": "fr",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0b1220",
   "theme_color": "#4ade80",
