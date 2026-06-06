@@ -648,6 +648,11 @@ function closeFullscreen(){
 /* PARTICIPATION */
 async function participate(eventName){
 
+  if(!isLogged){
+    show("login");
+    return;
+  }
+
   const name = prompt("Ton prénom ?");
 
   if(!name) return;
